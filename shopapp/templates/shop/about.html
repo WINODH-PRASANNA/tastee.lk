@@ -1,0 +1,106 @@
+{% extends 'shop/layouts/main.html' %}
+{% load static %}
+
+{% block title %}
+About
+{% endblock title %}
+
+{% block content %}
+
+<section class="container mx-auto px-4 py-20 text-center md:px-16 bg-yellow-50">
+
+   <div class="max-w-6xl mx-auto text-center">
+      <!-- Main About Content -->
+      <h2 class="text-2xl lg:text-3xl font-semibold mb-4 text-yellow-900 mb-10">About <span class="text-yellow-600">Tastee.lk</span></h2>
+      <p class="text-lg text-yellow-800 mb-8 max-w-4xl mx-auto">At <a href="{% url 'home' %}" class="text-yellow-600 font-semibold">Tastee.lk</a>, we believe great food brings people together. Our mission is to deliver mouthwatering meals right to your doorstep — quickly, affordably, and always with a smile. </p>
+      <p class="text-lg text-yellow-800 mb-6 max-w-3xl mx-auto">
+         Tastee.lk partners with top-rated restaurants and talented chefs across Sri Lanka to offer a wide variety of
+         meals — from spicy Sri Lankan curry to international delights. Freshness and taste are at the heart of
+         everything we serve.
+      </p>
+      <p class="text-lg text-yellow-800 mb-6 max-w-3xl mx-auto">
+         Whether you're working late, relaxing at home, or celebrating with friends, Tastee.lk makes food ordering
+         simple and delightful. Our smart system recommends the best meals, while our live tracking keeps you updated
+         every step of the way.
+      </p>
+      <p class="text-lg text-yellow-800 mb-6 max-w-3xl mx-auto">
+         Join thousands of happy customers who trust Tastee.lk to satisfy their cravings. Because with us, every meal
+         is a celebration.
+      </p>
+   </div>
+
+   <!-- Why Choose Us -->
+   <div class="max-w-6xl mx-auto mt-16">
+      <h3 class="text-2xl lg:text-3xl font-semibold mb-4 text-yellow-900 mb-10">Why Choose Us</h3>
+      <div class="grid md:grid-cols-3 gap-8 text-center">
+         <div class="p-6 border border-yellow-200 rounded-lg shadow hover:shadow-lg transition duration-300 bg-white">
+            <img src="https://img.icons8.com/ios-filled/50/yellow-600/ingredients.png" alt="Fresh Ingredients"
+               class="mx-auto mb-4">
+            <h4 class="text-xl font-semibold text-yellow-800 mb-2">Fresh Ingredients</h4>
+            <p class="text-yellow-700">We use locally sourced, high-quality ingredients to ensure the best taste and
+               nutrition in every dish.</p>
+         </div>
+         <div class="p-6 border border-yellow-200 rounded-lg shadow hover:shadow-lg transition duration-300 bg-white">
+            <img src="https://img.icons8.com/ios-filled/50/yellow-600/delivery.png" alt="Fast Delivery"
+               class="mx-auto mb-4">
+            <h4 class="text-xl font-semibold text-yellow-800 mb-2">Fast Delivery</h4>
+            <p class="text-yellow-700">Get your meals delivered piping hot and on time with our efficient and reliable
+               delivery service.</p>
+         </div>
+         <div class="p-6 border border-yellow-200 rounded-lg shadow hover:shadow-lg transition duration-300 bg-white">
+            <img src="https://img.icons8.com/ios-filled/50/yellow-600/like.png" alt="Customer Satisfaction"
+               class="mx-auto mb-4">
+            <h4 class="text-xl font-semibold text-yellow-800 mb-2">Customer Satisfaction</h4>
+            <p class="text-yellow-700">Our 24/7 support and focus on feedback help us continuously improve your food
+               experience.</p>
+         </div>
+      </div>
+   </div>
+
+   <!-- Testimonials -->
+   <div class="max-w-6xl mx-auto mt-20 text-center">
+      <h3 class="text-2xl lg:text-3xl font-semibold mb-4 text-yellow-900 mb-10">What Our Customers Say</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+         <div class="bg-yellow-100 p-6 rounded-lg shadow border border-yellow-200">
+            <p class="text-yellow-800 mb-4 italic">"Tastee.lk is my go-to whenever I want something delicious. Fast
+               delivery and food that never disappoints!"</p>
+            <h4 class="font-semibold text-yellow-800">– Nadeesha R.</h4>
+         </div>
+         <div class="bg-yellow-100 p-6 rounded-lg shadow border border-yellow-200">
+            <p class="text-yellow-800 mb-4 italic">"I love how easy it is to find my favorite meals. The tracking
+               system is a bonus!"</p>
+            <h4 class="font-semibold text-yellow-800">– Tharindu P.</h4>
+         </div>
+         <div class="bg-yellow-100 p-6 rounded-lg shadow border border-yellow-200">
+            <p class="text-yellow-800 mb-4 italic">"Excellent variety and taste! Tastee.lk truly understands Sri Lankan
+               cravings."</p>
+            <h4 class="font-semibold text-yellow-800">– Ishara D.</h4>
+         </div>
+      </div>
+   </div>
+
+   <!-- Meet the Team -->
+   <div class="max-w-6xl mx-auto mt-20 text-center">
+      <h3 class="text-2xl lg:text-3xl font-semibold mb-4 text-yellow-900 mb-10">Meet Our Team</h3>
+      <div class="grid md:grid-cols-3 gap-8">
+         <div>
+            <img src="{% static 'images/user.gif' %}" class="w-30 h-30 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 border-4 border-yellow-500" alt="Founder">
+            <h4 class="text-xl font-semibold text-yellow-800">Winodh Prasanna</h4>
+            <p class="text-yellow-700">Founder</p>
+         </div>
+         <div>
+            <img src="{% static 'images/user.gif' %}" class="w-30 h-30 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 border-4 border-yellow-600" alt="Chef">
+            <h4 class="text-xl font-semibold text-yellow-800">Winodh Prasanna</h4>
+            <p class="text-yellow-700">Frontend & Backend Developer</p>
+         </div>
+         <div>
+            <img src="{% static 'images/user.gif' %}" class="w-30 h-30 sm:w-20 sm:h-20 rounded-full mx-auto mb-4 border-4 border-yellow-500" alt="Manager">
+            <h4 class="text-xl font-semibold text-yellow-800">Winodh Prasanna</h4>
+            <p class="text-yellow-700">UI UX & Database Designer</p>
+         </div>
+      </div>
+   </div>
+
+</section>
+
+{% endblock content %}

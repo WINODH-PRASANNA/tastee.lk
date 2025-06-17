@@ -1,0 +1,139 @@
+{% load static %}
+
+<nav class="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-yellow-600 to-yellow-500 shadow-lg">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16">
+         <!-- Logo -->
+         <div class="flex-shrink-0 flex items-center text-[20px]">
+            <a href="{% url 'home' %}" class="text-[20px] font-bold font-semibold text-yellow-900 uppercase hover:text-yellow-100 transition-colors">
+               <i class="bi bi-egg-fried mr-2"></i>Tastee.lk
+            </a>
+         </div>
+
+         <!-- Desktop Navigation -->
+         <div class="hidden md:flex items-center space-x-8">
+            <div class="flex space-x-2">
+               <a href="{% url 'home' %}" class="text-yellow-900 hover:text-yellow-100 px-3 py-2 text-lg font-medium transition-colors">Home</a>
+               <a href="{% url 'collection' %}" class="text-yellow-900 hover:text-yellow-100 px-3 py-2 text-lg font-medium transition-colors">Category</a>
+               <a href="{% url 'about' %}" class="text-yellow-900 hover:text-yellow-100 px-3 py-2 text-lg font-medium transition-colors">About</a>
+               <a href="{% url 'contact' %}" class="text-yellow-900 hover:text-yellow-100 px-3 py-2 text-lg font-medium transition-colors">Contact</a>
+            </div>
+
+            <div class="flex items-center space-x-4">
+               {% if request.user.is_authenticated %}
+               <div class="relative ml-4">
+                  <button id="profile-button" class="flex items-center text-sm rounded-full focus:outline-none">
+                     <img class="h-10 w-10 rounded-full cursor-pointer border-2 border-yellow-700" src="{% static 'images/user.gif' %}" alt="Profile">
+                  </button>
+
+                  <div id="profile-dropdown"
+                     class="hidden absolute right-0 mt-2 w-48 bg-gradient-to-l from-yellow-600 to-yellow-500 shadow-lg py-1 z-50 rounded-md border border-yellow-700/30">
+                     <div class="px-4 py-2 border-b border-yellow-700/30 text-yellow-900">
+                        <p class="text-base font-medium capitalize">{{request.user}}</p>
+                        <p class="text-sm">{{request.user.email}}</p>
+                     </div>
+                     <a href="{% url 'cart' %}" class="block px-4 py-2 text-sm hover:bg-yellow-700/50 text-yellow-900 transition-colors">My Cart</a>
+                     <a href="{% url 'favviewpage' %}" class="block px-4 py-2 text-sm hover:bg-yellow-700/50 text-yellow-900 transition-colors">Favourite</a>
+                     <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm hover:bg-yellow-700/50 text-yellow-900 transition-colors">Logout</a>
+                  </div>
+               </div>
+               {% else %}
+               <a href="{% url 'login' %}" class="px-2 py-2 text-lg font-normal text-yellow-900 hover:text-yellow-100 transition-colors">Login</a>
+               <a href="{% url 'register' %}" class="bg-yellow-700 hover:bg-yellow-800 text-yellow-100 px-4 py-2 rounded-md text-lg font-normal transition-colors duration-200">Register</a>
+               {% endif %}
+            </div>
+         </div>
+
+         <!-- Mobile Profile & Menu Button -->
+         <div class="flex items-center md:hidden">
+            {% if request.user.is_authenticated %}
+            <div class="relative ml-4">
+               <button id="mobile-profile-button" class="flex items-center text-sm rounded-full focus:outline-none">
+                  <img class="h-8 w-8 rounded-full cursor-pointer border border-yellow-700" src="{% static 'images/user.gif' %}" alt="Profile">
+               </button>
+
+               <div id="mobile-profile-dropdown"
+                  class="hidden absolute right-0 mt-2 w-48 bg-gradient-to-l from-yellow-600 to-yellow-500 shadow-lg py-1 z-50 rounded-md border border-yellow-700/30">
+                  <div class="px-4 py-2 border-b border-yellow-700/30 text-yellow-900">
+                     <p class="text-sm font-medium capitalize">{{request.user}}</p>
+                     <p class="text-xs">{{request.user.email}}</p>
+                  </div>
+                  <a href="{% url 'cart' %}" class="block px-4 py-2 text-sm hover:bg-yellow-700/50 text-yellow-900 transition-colors">My Cart</a>
+                  <a href="{% url 'favviewpage' %}" class="block px-4 py-2 text-sm hover:bg-yellow-700/50 text-yellow-900 transition-colors">Favourite</a>
+                  <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm hover:bg-yellow-700/50 text-yellow-900 transition-colors">Logout</a>
+               </div>
+            </div>
+            {% endif %}
+
+            <button id="mobile-menu-button"
+               class="ml-4 inline-flex items-center justify-center p-2 rounded-full text-yellow-900 hover:bg-yellow-700/30 focus:outline-none cursor-pointer transition-colors">
+               <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+               </svg>
+            </button>
+         </div>
+      </div>
+   </div>
+
+   <!-- Mobile Menu -->
+   <div id="mobile-menu" class="hidden md:hidden bg-gradient-to-r from-yellow-600 to-yellow-500 border-t border-yellow-700/30">
+      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-center">
+         <a href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-normal hover:bg-yellow-700/50 text-yellow-900 transition-colors">Home</a>
+         <a href="{% url 'collection' %}" class="block px-3 py-2 rounded-md text-base font-normal hover:bg-yellow-700/50 text-yellow-900 transition-colors">Category</a>
+         <a href="{% url 'about' %}" class="block px-3 py-2 rounded-md text-base font-normal hover:bg-yellow-700/50 text-yellow-900 transition-colors">About</a>
+         <a href="{% url 'contact' %}" class="block px-3 py-2 rounded-md text-base font-normal hover:bg-yellow-700/50 text-yellow-900 transition-colors">Contact</a>
+      </div>
+
+      {% if not request.user.is_authenticated %}
+      <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 text-center">
+         <a href="{% url 'login' %}" class="block px-3 py-2 rounded-md text-base font-medium hover:bg-yellow-700/50 text-yellow-900 transition-colors">Login</a>
+         <a href="{% url 'register' %}" class="block px-3 py-2 rounded-md text-base font-medium bg-yellow-700 hover:bg-yellow-800 text-yellow-100 transition-colors">Register</a>
+      </div>
+      {% endif %}
+   </div>
+</nav>
+
+<script>
+   // Toggle mobile menu
+   const mobileMenuButton = document.getElementById('mobile-menu-button');
+   const mobileMenu = document.getElementById('mobile-menu');
+
+   if (mobileMenuButton && mobileMenu) {
+      mobileMenuButton.addEventListener('click', () => {
+         mobileMenu.classList.toggle('hidden');
+      });
+   }
+
+   // Toggle profile dropdown (desktop)
+   const profileButton = document.getElementById('profile-button');
+   const profileDropdown = document.getElementById('profile-dropdown');
+
+   if (profileButton && profileDropdown) {
+      profileButton.addEventListener('click', (e) => {
+         e.stopPropagation();
+         profileDropdown.classList.toggle('hidden');
+      });
+   }
+
+   // Toggle profile dropdown (mobile)
+   const mobileProfileButton = document.getElementById('mobile-profile-button');
+   const mobileProfileDropdown = document.getElementById('mobile-profile-dropdown');
+
+   if (mobileProfileButton && mobileProfileDropdown) {
+      mobileProfileButton.addEventListener('click', (e) => {
+         e.stopPropagation();
+         mobileProfileDropdown.classList.toggle('hidden');
+      });
+   }
+
+   // Close dropdowns when clicking outside
+   document.addEventListener('click', (event) => {
+      if (profileDropdown && !event.target.closest('#profile-button') && !event.target.closest('#profile-dropdown')) {
+         profileDropdown.classList.add('hidden');
+      }
+
+      if (mobileProfileDropdown && !event.target.closest('#mobile-profile-button') && !event.target.closest('#mobile-profile-dropdown')) {
+         mobileProfileDropdown.classList.add('hidden');
+      }
+   });
+</script>

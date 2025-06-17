@@ -1,0 +1,81 @@
+{% extends 'shop/layouts/main.html' %}
+
+{% block title %}
+My Cart
+{% endblock title %}
+
+{% block content %}
+<section class="bg-yellow-50 py-6 my-5 min-h-screen">
+   <div class="max-w-7xl mx-auto px-4">
+      <div class="grid grid-cols-1 gap-4">
+         <div>
+            <h4 class="text-2xl font-semibold text-yellow-900">Your Cart Items</h4>
+            <hr class="border-yellow-300 my-2">
+         </div>
+         <div>
+            <div class="overflow-x-auto">
+               <table class="min-w-full border border-yellow-300 text-center text-sm">
+                  <thead class="bg-yellow-200 text-yellow-900">
+                     <tr>
+                        <th class="px-4 py-2 border border-yellow-300">Image</th>
+                        <th class="px-4 py-2 border border-yellow-300">Product Name</th>
+                        <th class="px-4 py-2 border border-yellow-300 hidden md:table-cell">Unit Price</th>
+                        <th class="px-4 py-2 border border-yellow-300 hidden md:table-cell">Quantity</th>
+                        <th class="px-4 py-2 border border-yellow-300 hidden md:table-cell">Price</th>
+                        <th class="px-4 py-2 border border-yellow-300">Remove</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     {% for item in cart %}
+                     <tr class="bg-white hover:bg-yellow-50">
+                        <td class="px-4 py-2 border border-yellow-300">
+                           <img src="{{ item.product.product_image.url }}" alt="{{ item.product.name }}"
+                              class="mx-auto rounded max-w-[80px] h-auto">
+                        </td>
+                        <td class="px-4 py-2 border border-yellow-300 text-yellow-900">{{ item.product.name }}</td>
+                        <td class="px-4 py-2 border border-yellow-300 text-yellow-700 hidden md:table-cell">Rs. {{ item.product.selling_price|stringformat:'d' }}</td>
+                        <td class="px-4 py-2 border border-yellow-300 text-yellow-700 hidden md:table-cell">{{ item.product_qty }}</td>
+                        <td class="px-4 py-2 border border-yellow-300 text-yellow-700 amt hidden md:table-cell">Rs. {{ item.total_cost|stringformat:'d' }}</td>
+                        <td class="px-4 py-2 border border-yellow-300">
+                           <a href="{% url 'remove_cart' item.id %}"
+                              onclick="return confirm('Are you sure you want to remove this item?')"
+                              class="inline-flex items-center text-sm text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded transition">
+                              <i class="bi bi-trash-fill mr-1"></i> Remove
+                           </a>
+                        </td>
+                     </tr>
+                     {% endfor %}
+                     <!-- Total and Checkout Button Row (hidden on small screens) -->
+                     <tr class="bg-yellow-100 font-semibold hidden md:table-row">
+                        <td colspan="3" class="border border-yellow-300"></td>
+                        <td class="border border-yellow-300 px-4 py-2 text-yellow-900">Total Amount</td>
+                        <td id="net" class="border border-yellow-300 px-4 py-2 text-yellow-900 font-bold"></td>
+                        <td class="border border-yellow-300 px-4 py-2">
+                           <button class="inline-flex items-center text-sm text-white bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition shadow hover:shadow-md">
+                              <i class="bi bi-bag-check-fill mr-2"></i> Check Out
+                           </button>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+      const nodes = document.querySelectorAll('.amt');
+      const arr = Array.from(nodes);
+      const res = arr.reduce((acc, curr) => {
+         return acc += Number(curr.textContent.replace('Rs. ', ''));
+      }, 0);
+      const netElem = document.getElementById("net");
+      if (netElem) {
+         netElem.innerHTML = "Rs. " + res;
+      }
+   });
+</script>
+
+{% endblock content %}

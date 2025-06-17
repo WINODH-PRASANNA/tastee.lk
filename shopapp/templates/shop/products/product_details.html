@@ -1,0 +1,207 @@
+{% extends 'shop/layouts/main.html' %}
+{% load static %}
+
+{% block title %}
+{{ products.name }}
+{% endblock title %}
+
+{% block content %}
+<section class="bg-yellow-50 py-6 sm:py-8 lg:py-10 my-5 min-h-[500px]">
+   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      <!-- Breadcrumb -->
+      <div class="mb-6">
+         <nav class="text-sm" aria-label="Breadcrumb">
+            <ol class="flex flex-wrap items-center gap-1 sm:gap-2 rtl:space-x-reverse text-yellow-700">
+               <li>
+                  <a href="{% url 'home' %}" class="hover:text-yellow-600">Home</a>
+               </li>
+               <li>
+                  <span class="text-yellow-400">/</span>
+                  <a href="{% url 'collection' products %}" class="hover:text-yellow-600">Category</a>
+               </li>
+               <li>
+                  <span class="text-yellow-400">/</span>
+                  <a href="{% url 'collection' products.catagory %}" class="hover:text-yellow-600">Collections</a>
+               </li>
+               <li>
+                  <span class="text-yellow-400">/</span>
+                  <span class="text-yellow-500">{{ products }}</span>
+               </li>
+            </ol>
+         </nav>
+         <hr class="border-yellow-300 mt-2">
+      </div>
+
+      <!-- Product Details -->
+      <div class="flex flex-col lg:flex-row gap-6">
+
+         <!-- Product Image -->
+         <div class="w-full lg:w-1/2 relative">
+            {% if products.trending %}
+            <span class="absolute top-3 left-3 bg-yellow-600 text-white text-md font-semibold px-2 py-1 rounded z-10">
+               Trending
+            </span>
+            {% endif %}
+            <img src="{{ products.product_image.url }}" alt="{{ products }}"
+               class="w-full max-h-[500px] object-contain bg-white rounded-lg shadow-md">
+         </div>
+
+         <!-- Product Info -->
+         <div class="w-full lg:w-1/2">
+            <h1 class="text-2xl sm:text-3xl font-bold text-yellow-900 mb-2">{{ products.name }}</h1>
+            <p class="text-yellow-700 mb-2">
+               {{ products.catagory.name }}{% if products.country %} | {{ products.country }}{% endif %}
+            </p>
+            <p class="text-yellow-500 mb-4"><i class="bi bi-star-fill"></i> {{ products.rating }}</p>
+            <p class="text-yellow-800 mb-4 leading-relaxed">{{ products.description }}</p>
+
+            <div class="mb-4">
+               <s class="text-red-500 text-lg">Rs. {{ products.original_price | stringformat:'d' }}</s>
+               <span class="block sm:inline text-2xl font-bold text-yellow-600 ml-0 sm:ml-2">Rs. {{ products.selling_price | stringformat:'d' }}</span>
+            </div>
+
+            <div class="mt-6 flex flex-col sm:flex-row sm:flex-wrap gap-4">
+               {% if products.quantity > 0 %}
+               <input type="hidden" id="pid" value="{{ products.id }}">
+
+               <!-- Quantity Selector -->
+               <div class="flex items-center border border-yellow-300 rounded-md overflow-hidden w-full sm:w-32">
+                  <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-2 cursor-pointer" id="btnMinus">
+                     <i class="bi bi-dash"></i>
+                  </button>
+                  <input type="text" name="qty" id="txtQty" value="1"
+                     class="w-full text-center border-x border-yellow-300 py-2">
+                  <button class="bg-yellow-600 hover:bg-yellow-700 text-white px-3 py-2 cursor-pointer" id="btnPlus">
+                     <i class="bi bi-plus"></i>
+                  </button>
+               </div>
+
+               <!-- Add to Cart -->
+               <button
+                  class="bg-yellow-600 text-white px-6 py-2 rounded-md hover:bg-yellow-700 flex items-center justify-center gap-2 w-full sm:w-auto cursor-pointer"
+                  id="btnCart">
+                  <i class="bi bi-cart-plus-fill"></i> Add to Cart
+               </button>
+
+               <!-- Favorite -->
+               <button
+                  class="bg-yellow-600 text-white px-6 py-2 rounded-md hover:bg-yellow-700 flex items-center justify-center gap-2 w-full sm:w-auto cursor-pointer"
+                  id="btnFav">
+                  <i class="bi bi-heart-fill"></i>
+               </button>
+
+               {% else %}
+               <!-- Out of Stock -->
+               <button
+                  class="bg-yellow-800 text-white px-6 py-2 rounded-md flex items-center justify-center gap-2 cursor-not-allowed w-full sm:w-auto">
+                  <i class="bi bi-exclamation-diamond-fill"></i> Out of Stock
+               </button>
+               {% endif %}
+            </div>
+         </div>
+      </div>
+   </div>
+</section>
+
+
+<script>
+   document.addEventListener("DOMContentLoaded", function (event) {
+      const btnPlus = document.getElementById("btnPlus");
+      const btnMinus = document.getElementById("btnMinus");
+      const txtQty = document.getElementById("txtQty");
+      const pid = document.getElementById("pid");
+      const btnCart = document.getElementById("btnCart");
+      const btnFav = document.getElementById("btnFav");
+
+      btnPlus.addEventListener("click", function () {
+         let qty = parseInt(txtQty.value, 10);
+         qty = isNaN(qty) ? 0 : qty;
+         if (qty < 10) {
+            qty++;
+            txtQty.value = qty;
+         }
+      });
+
+      btnMinus.addEventListener("click", function () {
+         let qty = parseInt(txtQty.value, 10);
+         qty = isNaN(qty) ? 0 : qty;
+         if (qty > 1) {
+            qty--;
+            txtQty.value = qty;
+         }
+      });
+
+      btnCart.addEventListener("click", function () {
+         let qty = parseInt(txtQty.value, 10);
+         qty = isNaN(qty) ? 0 : qty;
+         if (qty > 0) {
+            let postObj = {
+               'product_qty': qty,
+               'pid': pid.value
+            }
+            console.log(postObj);
+            fetch("/addtocart", {
+               method: 'POST',
+               credentials: 'same-origin',
+               headers: {
+                  'Accept': 'application/json',
+                  'Content-Type': 'application/json',
+                  'X-Requested-With': 'XMLHttpRequest',
+                  'X-CSRFToken': getCSRFToken(),
+               },
+               body: JSON.stringify(postObj)
+            })
+               .then(response => {
+                  if (!response.ok) {
+                     throw new Error('Network response was not ok');
+                  }
+                  return response.json();
+               })
+               .then(data => {
+                  if (data && data.status) {
+                     alert(data.status);
+                  } else {
+                     alert('Unexpected response from server');
+                  }
+               })
+               .catch(error => {
+                  console.error('Error:', error);
+                  alert('An error occurred');
+               });
+         } else {
+            alert("Please Enter The Quantity");
+         }
+      });
+
+      function getCSRFToken() {
+         const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('csrftoken='))
+            ?.split('=')[1];
+         return cookieValue || '';
+      }
+
+      btnFav.addEventListener("click", function () {
+         let postObj = {
+            'pid': pid.value
+         }
+         console.log(postObj);
+         fetch("/fav", {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+               'Accept': 'application/json',
+               'X-Requested-With': 'XMLHttpRequest',
+               'X-CSRFToken': '{{ csrf_token }}',
+            },
+            body: JSON.stringify(postObj)
+         }).then(response => {
+            return response.json();
+         }).then(data => {
+            alert(data['status']);
+         });
+      });
+   });
+</script>
+{% endblock content %}
