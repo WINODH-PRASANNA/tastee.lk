@@ -1,6 +1,8 @@
 
 # 🍽️ Tastee.lk – Restaurant Website
 
+![Tastee.lk Home Page](https://i.imgur.com/WtUxTv3.jpeg)
+
 Tastee.lk is a full-featured, responsive restaurant web application built with **Python Django**, **HTML**, **Tailwind CSS**, **JavaScript**, and **MySQL**. This platform offers a smooth and engaging user experience, combining a modern frontend, robust backend, and a clean admin dashboard. Ideal for restaurants to showcase their menu, manage orders, and engage with customers online.
 
 ---
